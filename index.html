@@ -26,7 +26,16 @@
   .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px}
   .brand svg{width:34px;height:34px}
   .brand b{color:var(--gold);font-weight:700}
-  .nav-cta{display:flex;gap:10px;align-items:center}
+  .burger{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:10px}
+  .burger span{display:block;width:24px;height:2px;background:var(--text);transition:transform .2s ease,opacity .2s ease}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-menu{display:none;position:absolute;top:70px;right:16px;width:290px;background:var(--navy2);border:1px solid var(--line);border-radius:12px;padding:18px;z-index:60}
+  .nav-menu.open{display:block}
+  .nav-menu .btn{display:block;margin-bottom:10px}
+  .nav-links{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+  .nav-links a{padding:8px 0;color:var(--muted);font-size:14.5px;font-weight:600}
   .btn{display:inline-block;padding:12px 24px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;text-align:center;font-family:var(--sans);border:1px solid transparent}
   .btn:active{transform:scale(.98)}
   .btn-gold{background:var(--gold);color:#0B1132;border-color:var(--gold)}
@@ -138,9 +147,16 @@
       <svg viewBox="0 0 1200 1200" aria-hidden="true"><circle cx="600" cy="600" r="560" fill="#0B1132"/><circle cx="600" cy="600" r="560" fill="none" stroke="#C9A24B" stroke-width="70"/><g fill="#DBB669"><rect x="380" y="600" width="26" height="330"/><rect x="330" y="680" width="126" height="170"/><rect x="560" y="500" width="26" height="400"/><rect x="510" y="580" width="126" height="240"/><rect x="740" y="400" width="26" height="470"/><rect x="690" y="480" width="126" height="290"/><polygon points="690,480 816,480 753,370"/></g></svg>
       Tryb<b>Network</b>
     </a>
-    <div class="nav-cta">
-      <a class="btn btn-ghost btn-sm" href="https://trybnetwork.github.io/demo/">Log in</a>
-      <a class="btn btn-gold btn-sm" href="https://trybnetwork.github.io/demo/">Create account</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav-menu" id="navMenu">
+    <a class="btn btn-gold" href="https://trybnetwork.github.io/demo/">Create free account</a>
+    <a class="btn btn-ghost" href="https://trybnetwork.github.io/demo/">Log in</a>
+    <div class="nav-links">
+      <a href="#earn">Ways to earn</a>
+      <a href="#mining">Mining</a>
+      <a href="#refer">Refer &amp; earn</a>
+      <a href="#faq">FAQ</a>
     </div>
   </div>
 </nav>
@@ -364,6 +380,28 @@
 </footer>
 
 <script>
+  var burger = document.getElementById('burger');
+  var navMenu = document.getElementById('navMenu');
+  burger.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = navMenu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function(e){
+    if (navMenu.classList.contains('open') && !navMenu.contains(e.target)){
+      navMenu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+  });
+  navMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      navMenu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
   document.querySelectorAll('.faq-q').forEach(function(btn){
     btn.addEventListener('click', function(){
       var item = btn.closest('.faq-item');
