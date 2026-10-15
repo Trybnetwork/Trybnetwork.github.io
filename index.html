@@ -15,35 +15,27 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#fff;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column}
   a{color:inherit;text-decoration:none}
-  .gate{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;max-width:430px;margin:0 auto;width:100%}
-  .logo-mark{width:64px;height:64px;margin-bottom:18px}
-  .wordmark{font-size:32px;font-weight:700;letter-spacing:1.5px;color:var(--navy);margin-bottom:16px;white-space:nowrap}
+  .topbar{display:flex;align-items:center;padding:18px 24px}
+  .wordmark{font-size:20px;font-weight:700;letter-spacing:1.5px;color:var(--navy);white-space:nowrap}
   .wordmark b{color:var(--gold);font-weight:700}
+  .gate{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;max-width:430px;margin:0 auto;width:100%}
   .sub{color:var(--ink);font-size:17px;font-weight:600;letter-spacing:1px;margin-bottom:10px}
-  .sub2{color:var(--muted);font-size:16.5px;line-height:1.55;margin-bottom:34px;max-width:340px}
+  .sub2{color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:34px;max-width:340px}
   .btn{display:block;width:100%;max-width:340px;padding:16px;border-radius:8px;font-weight:600;font-size:17px;text-align:center;font-family:var(--sans);border:1px solid transparent;cursor:pointer}
   .btn:active{transform:scale(.98)}
   .btn-gold{background:var(--gold);color:#fff;margin-bottom:14px}
   .btn-gold:hover{background:var(--gold2)}
   .btn-gray{background:var(--btn-gray);color:var(--ink)}
-  .support-mail{display:inline-block;margin-top:30px;font-size:16.5px;color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+  .support-mail{display:inline-block;margin-top:30px;font-size:14px;font-weight:400;color:var(--ink);text-decoration:underline;text-underline-offset:4px}
   footer{border-top:1px solid var(--line);padding:26px 24px 34px;text-align:center}
   footer p{color:#9CA3AF;font-size:13px;line-height:1.7;max-width:640px;margin:0 auto}
 </style>
 </head>
 <body>
-  <main class="gate">
-    <svg class="logo-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-      <circle cx="32" cy="32" r="29" stroke="#0B1132" stroke-width="4"/>
-      <g stroke="#C9A24B" stroke-width="3.4" stroke-linecap="round">
-        <line x1="18" y1="44" x2="18" y2="34"/><line x1="14" y1="39" x2="22" y2="39"/>
-        <line x1="28" y1="44" x2="28" y2="30"/><line x1="24" y1="37" x2="32" y2="37"/>
-        <line x1="38" y1="44" x2="38" y2="26"/><line x1="34" y1="35" x2="42" y2="35"/>
-        <line x1="48" y1="44" x2="48" y2="22"/><line x1="44" y1="33" x2="52" y2="33"/>
-      </g>
-      <path d="M44 20 L52 20 L48 26" stroke="#C9A24B" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    </svg>
+  <header class="topbar">
     <div class="wordmark">TRYB<b>NETWORK</b></div>
+  </header>
+  <main class="gate">
     <p class="sub">TRADE, MINE, PLAY, EARN.</p>
     <p class="sub2">Sign in or register for full access to TrybNetwork content and services.</p>
     <a class="btn btn-gold" href="https://trybnetwork.github.io/demo/">Register</a>
