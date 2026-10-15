@@ -1,1 +1,302 @@
-<!-- placeholder -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>TrybNetwork — Trade, Mine, Play, Earn</title>
+<meta name="description" content="Trade binary options, mine daily profits, play Aviator, Spin & Whot. Refer friends, earn $3 + 1% of their profits for life. One platform, four ways to earn." />
+<meta name="theme-color" content="#0B1132" />
+<style>
+  :root{
+    --navy:#0B1132; --navy2:#111845; --navy3:#0e1430;
+    --gold:#C9A24B; --gold2:#DBB669; --gold-soft:rgba(201,162,75,.14);
+    --text:#F4F1E8; --muted:#A9AEC9; --line:rgba(201,162,75,.22);
+    --card:#141B45; --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--navy);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,17,50,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:.4px}
+  .brand svg{width:34px;height:34px}
+  .brand b{color:var(--gold)}
+  .nav-cta{display:flex;gap:10px}
+  .btn{display:inline-block;padding:11px 22px;border-radius:999px;font-weight:700;font-size:15px;border:1px solid var(--gold);transition:transform .12s ease, box-shadow .12s ease;cursor:pointer;text-align:center}
+  .btn:active{transform:scale(.97)}
+  .btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#0B1132;border:none;box-shadow:0 6px 22px rgba(201,162,75,.35)}
+  .btn-ghost{color:var(--gold);background:transparent}
+  .btn-sm{padding:8px 16px;font-size:14px}
+  /* hero */
+  .hero{padding:72px 0 56px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 320px at 50% -60px, rgba(201,162,75,.16), transparent 70%);pointer-events:none}
+  .hero-logo{width:120px;height:120px;margin:0 auto 18px;filter:drop-shadow(0 10px 30px rgba(201,162,75,.25))}
+  .hero h1{font-size:clamp(34px,7vw,58px);line-height:1.12;font-weight:800;letter-spacing:-.5px}
+  .hero h1 .g{color:var(--gold)}
+  .tagline{margin:14px 0 6px;font-size:clamp(17px,3.4vw,22px);color:var(--gold2);font-weight:700;letter-spacing:.3px}
+  .lede{max-width:640px;margin:0 auto 30px;color:var(--muted);font-size:16.5px}
+  .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .hero-cta .btn{padding:14px 34px;font-size:16px}
+  .hero-note{margin-top:16px;font-size:13.5px;color:var(--muted)}
+  /* pillars */
+  section{padding:56px 0}
+  .sec-kicker{color:var(--gold);font-weight:800;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px}
+  .sec-title{font-size:clamp(26px,5vw,38px);font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+  .sec-sub{color:var(--muted);max-width:640px;margin-bottom:30px;font-size:16px}
+  .grid4{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:720px){.grid4{grid-template-columns:1fr 1fr}}
+  @media(min-width:1020px){.grid4{grid-template-columns:repeat(4,1fr)}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;position:relative;overflow:hidden}
+  .card::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7}
+  .card .ico{font-size:30px;margin-bottom:12px}
+  .card h3{font-size:19px;margin-bottom:8px;color:var(--gold2)}
+  .card p{font-size:14.5px;color:var(--muted)}
+  .card p b{color:var(--text)}
+  /* steps */
+  .steps{display:grid;grid-template-columns:1fr;gap:14px;counter-reset:step}
+  @media(min-width:760px){.steps{grid-template-columns:repeat(4,1fr)}}
+  .step{background:var(--navy3);border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px}
+  .step .n{width:38px;height:38px;border-radius:50%;background:var(--gold-soft);border:1px solid var(--gold);color:var(--gold);font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:17px}
+  .step h4{font-size:16.5px;margin-bottom:6px}
+  .step p{font-size:14px;color:var(--muted)}
+  /* tiers */
+  .tiers{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:760px){.tiers{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1020px){.tiers{grid-template-columns:repeat(4,1fr)}}
+  .tier{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px;text-align:center}
+  .tier.hot{border-color:var(--gold);box-shadow:0 8px 30px rgba(201,162,75,.18)}
+  .tier .t-name{font-weight:800;font-size:16px;color:var(--gold2);margin-bottom:4px}
+  .tier .t-range{font-size:13.5px;color:var(--muted);margin-bottom:12px}
+  .tier .t-rate{font-size:34px;font-weight:800;color:var(--gold)}
+  .tier .t-per{font-size:13px;color:var(--muted);margin-bottom:10px}
+  .tier .t-lock{font-size:13px;color:var(--text);background:var(--gold-soft);border-radius:999px;padding:6px 12px;display:inline-block}
+  /* refer */
+  .refer{background:linear-gradient(135deg,#16205a,#0B1132);border:1px solid var(--line);border-radius:22px;padding:38px 28px;text-align:center}
+  .refer h3{font-size:clamp(24px,4.6vw,34px);margin-bottom:10px}
+  .refer h3 .g{color:var(--gold)}
+  .refer p{color:var(--muted);max-width:620px;margin:0 auto 8px;font-size:15.5px}
+  .refer .big{font-size:20px;color:var(--text);font-weight:700;margin:16px 0 4px}
+  .refer .big span{color:var(--gold)}
+  /* faq */
+  .faq-item{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;background:var(--navy3);overflow:hidden}
+  .faq-q{width:100%;background:none;border:none;color:var(--text);font-size:16px;font-weight:700;text-align:left;padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:inherit}
+  .faq-q .pm{color:var(--gold);font-size:22px;line-height:1;flex-shrink:0}
+  .faq-a{display:none;padding:0 20px 20px;color:var(--muted);font-size:15px}
+  .faq-item.open .faq-a{display:block}
+  /* final cta */
+  .final{text-align:center;padding:70px 0 30px}
+  .final h2{font-size:clamp(28px,6vw,44px);margin-bottom:12px}
+  .final h2 .g{color:var(--gold)}
+  .final p{color:var(--muted);margin-bottom:26px}
+  footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:13.5px}
+  .foot-in{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+  @media(min-width:700px){.foot-in{flex-direction:row;justify-content:space-between;text-align:left}}
+  .foot-brand{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--text)}
+  .foot-brand svg{width:26px;height:26px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="TrybNetwork home">
+      <svg viewBox="0 0 1200 1200" aria-hidden="true"><circle cx="600" cy="600" r="560" fill="#0B1132"/><circle cx="600" cy="600" r="560" fill="none" stroke="#C9A24B" stroke-width="70"/><g fill="#DBB669"><rect x="380" y="600" width="26" height="330"/><rect x="330" y="680" width="126" height="170"/><rect x="560" y="500" width="26" height="400"/><rect x="510" y="580" width="126" height="240"/><rect x="740" y="400" width="26" height="470"/><rect x="690" y="480" width="126" height="290"/><polygon points="690,480 816,480 753,370"/></g></svg>
+      Tryb<b>Network</b>
+    </a>
+    <div class="nav-cta">
+      <a class="btn btn-ghost btn-sm" href="https://trybnetwork.github.io/demo/">Log in</a>
+      <a class="btn btn-gold btn-sm" href="https://trybnetwork.github.io/demo/">Create account</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <svg class="hero-logo" viewBox="0 0 1200 1200" role="img" aria-label="TrybNetwork logo"><rect width="1200" height="1200" rx="240" fill="#0B1132"/><defs><path id="arcB" d="M 260,600 A 340,340 0 0 0 940,600" fill="none"/></defs><text font-family="Georgia,'Times New Roman',serif" font-size="82" letter-spacing="22" fill="#C9A24B" font-weight="600"><textPath href="#arcB" startOffset="50%" text-anchor="middle">TRYBNETWORK</textPath></text><g fill="#C9A24B"><rect x="252" y="592" width="16" height="16" transform="rotate(45 260 600)"/><rect x="932" y="592" width="16" height="16" transform="rotate(45 940 600)"/></g><circle cx="600" cy="600" r="268" fill="#0B1132"/><circle cx="600" cy="600" r="252" fill="#111845"/><circle cx="600" cy="600" r="252" fill="none" stroke="#C9A24B" stroke-width="13"/><g fill="#DBB669"><rect x="487" y="595" width="7" height="140"/><rect x="466" y="625" width="48" height="80"/><rect x="567" y="545" width="7" height="170"/><rect x="546" y="575" width="48" height="110"/><rect x="647" y="495" width="7" height="190"/><rect x="626" y="525" width="48" height="130"/><rect x="727" y="430" width="7" height="210"/><rect x="706" y="470" width="48" height="140"/><polygon points="706,470 754,470 730,418"/></g></svg>
+    <h1>Trade. Mine. <span class="g">Play. Earn.</span></h1>
+    <p class="tagline">One platform, four ways to earn.</p>
+    <p class="lede">Trade binary options, mine daily profits, play Aviator, Spin &amp; Whot. Refer friends, earn $3 + 1% of their profits for life.</p>
+    <div class="hero-cta">
+      <a class="btn btn-gold" href="https://trybnetwork.github.io/demo/">Create free account</a>
+      <a class="btn btn-ghost" href="https://trybnetwork.github.io/demo/">Log in</a>
+    </div>
+    <p class="hero-note">Free to join · $12 minimum deposit · $10 minimum withdrawal</p>
+  </div>
+</header>
+
+<main>
+  <!-- Pillars -->
+  <section id="earn">
+    <div class="wrap">
+      <p class="sec-kicker">What you can do</p>
+      <h2 class="sec-title">Four ways to earn, one account</h2>
+      <p class="sec-sub">Everything runs from a single wallet. Fund it once, then trade, mine, and play — and get rewarded for bringing friends.</p>
+      <div class="grid4">
+        <div class="card">
+          <div class="ico">📈</div>
+          <h3>Trade</h3>
+          <p>Binary options on <b>BTC, ETH, EUR/USD and Gold</b>. Call High or Low, with a <b>90% payout</b> — a $10 winning bid returns <b>$19</b>.</p>
+        </div>
+        <div class="card">
+          <div class="ico">⛏️</div>
+          <h3>Mine</h3>
+          <p>Buy a miner and earn <b>daily profits up to 15%</b>. Start a 24-hour cycle, cash out your profits — the rig keeps working.</p>
+        </div>
+        <div class="card">
+          <div class="ico">🎮</div>
+          <h3>Play</h3>
+          <p><b>Aviator</b>, <b>Spin Wheel</b> and <b>Whot</b> — quick games with real stakes from $1. Cash out before the crash, spin the wheel, or outplay the table.</p>
+        </div>
+        <div class="card">
+          <div class="ico">🤝</div>
+          <h3>Refer &amp; Earn</h3>
+          <p><b>$3 bonus</b> when a friend makes their first deposit, plus <b>1% of every profit they make — for life</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="wrap">
+      <p class="sec-kicker">Getting started</p>
+      <h2 class="sec-title">Up and earning in minutes</h2>
+      <p class="sec-sub">No complicated setup. Four steps between you and your first trade.</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><h4>Create your account</h4><p>Sign up free with your name, username and email. Your wallet opens with a $3 welcome bonus.</p></div>
+        <div class="step"><div class="n">2</div><h4>Fund your wallet</h4><p>Deposit from $12 via bank transfer or USDT (TRC-20). Your balance credits once approved.</p></div>
+        <div class="step"><div class="n">3</div><h4>Trade, mine &amp; play</h4><p>Place bids, start your miner's daily cycle, or jump into Aviator, Spin and Whot.</p></div>
+        <div class="step"><div class="n">4</div><h4>Withdraw your earnings</h4><p>Cash out from $10 to your bank account or USDT wallet. Optional PIN locks every withdrawal.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mining tiers -->
+  <section id="mining">
+    <div class="wrap">
+      <p class="sec-kicker">Mining</p>
+      <h2 class="sec-title">Pick your rig, earn daily</h2>
+      <p class="sec-sub">Buy a miner, tap Start Mining every 24 hours, and cash out your profits. Your purchase amount stays working in the rig — cashouts never close it.</p>
+      <div class="tiers">
+        <div class="tier">
+          <div class="t-name">Starter</div>
+          <div class="t-range">$5 – $499</div>
+          <div class="t-rate">3%</div>
+          <div class="t-per">daily profit</div>
+          <span class="t-lock">Cash out any day</span>
+        </div>
+        <div class="tier hot">
+          <div class="t-name">Pro</div>
+          <div class="t-range">$500 – $4,999</div>
+          <div class="t-rate">5%</div>
+          <div class="t-per">daily profit</div>
+          <span class="t-lock">Cash out after 3 days</span>
+        </div>
+        <div class="tier">
+          <div class="t-name">Industrial</div>
+          <div class="t-range">$5,000 – $49,999</div>
+          <div class="t-rate">10%</div>
+          <div class="t-per">daily profit</div>
+          <span class="t-lock">Cash out after 7 days</span>
+        </div>
+        <div class="tier">
+          <div class="t-name">Whale</div>
+          <div class="t-range">$50,000+</div>
+          <div class="t-rate">15%</div>
+          <div class="t-per">daily profit</div>
+          <span class="t-lock">Cash out after 30 days</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Refer -->
+  <section id="refer">
+    <div class="wrap">
+      <div class="refer">
+        <p class="sec-kicker">Refer &amp; Earn</p>
+        <h3>Your network is <span class="g">your net worth</span></h3>
+        <p class="big"><span>$3</span> referral bonus when they make their first deposit</p>
+        <p>T&amp;C applies.</p>
+        <p class="big">Plus <span>1% lifetime rewards</span> from each profit your referral makes</p>
+        <p>Share your link, grow your circle, earn while they earn.</p>
+        <div class="hero-cta" style="margin-top:24px">
+          <a class="btn btn-gold" href="https://trybnetwork.github.io/demo/">Start referring</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <p class="sec-kicker">FAQ</p>
+      <h2 class="sec-title">Questions, answered</h2>
+      <p class="sec-sub">The essentials. Anything else, our support chat is one tap away inside the app.</p>
+      <div id="faqList">
+        <div class="faq-item">
+          <button class="faq-q" type="button">How do I start?<span class="pm">+</span></button>
+          <div class="faq-a">Create a free account, fund your wallet from $12 via bank transfer or USDT (TRC-20), and you're ready to trade, mine and play.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How does binary trading work?<span class="pm">+</span></button>
+          <div class="faq-a">Pick an asset — BTC, ETH, EUR/USD or Gold — stake an amount and call High or Low. Winners earn a 90% payout: a $10 bid returns $19.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How does mining work?<span class="pm">+</span></button>
+          <div class="faq-a">Choose a miner tier, tap Start Mining once every 24 hours, and earn the tier's daily rate. Cash out your unlocked profits anytime after the tier's lock period — the rig keeps running.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How do withdrawals work?<span class="pm">+</span></button>
+          <div class="faq-a">Withdraw from $10 to your saved bank account or USDT wallet. You can set an optional 4-digit withdrawal PIN for extra protection on payouts.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How do referrals pay?<span class="pm">+</span></button>
+          <div class="faq-a">You earn a $3 bonus when someone you refer makes their first deposit (T&amp;C applies), plus 1% of every profit they make — for life.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final">
+    <div class="wrap">
+      <h2>Ready to <span class="g">earn four ways?</span></h2>
+      <p>Join TrybNetwork free — your wallet is waiting.</p>
+      <div class="hero-cta">
+        <a class="btn btn-gold" href="https://trybnetwork.github.io/demo/">Create free account</a>
+        <a class="btn btn-ghost" href="https://trybnetwork.github.io/demo/">Log in</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span class="foot-brand">
+      <svg viewBox="0 0 1200 1200" aria-hidden="true"><circle cx="600" cy="600" r="560" fill="#0B1132"/><circle cx="600" cy="600" r="560" fill="none" stroke="#C9A24B" stroke-width="70"/><g fill="#DBB669"><rect x="380" y="600" width="26" height="330"/><rect x="330" y="680" width="126" height="170"/><rect x="560" y="500" width="26" height="400"/><rect x="510" y="580" width="126" height="240"/><rect x="740" y="400" width="26" height="470"/><rect x="690" y="480" width="126" height="290"/><polygon points="690,480 816,480 753,370"/></g></svg>
+      TrybNetwork
+    </span>
+    <span>Trade, Mine, Play, Earn.</span>
+    <span>Copyright © 2026 TrybNetwork. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = btn.closest('.faq-item');
+      var open = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(i){
+        i.classList.remove('open');
+        i.querySelector('.pm').textContent = '+';
+      });
+      if (!open){ item.classList.add('open'); btn.querySelector('.pm').textContent = '–'; }
+    });
+  });
+</script>
+</body>
+</html>
