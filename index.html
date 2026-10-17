@@ -15,9 +15,20 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#fff;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column}
   a{color:inherit;text-decoration:none}
-  .topbar{display:flex;align-items:center;padding:18px 24px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;position:relative}
   .wordmark{font-size:20px;font-weight:700;letter-spacing:1.5px;color:var(--navy);white-space:nowrap}
   .wordmark b{color:var(--gold);font-weight:700}
+  .burger{background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:5px}
+  .burger span{display:block;width:22px;height:2px;background:var(--navy);border-radius:2px;transition:transform .25s,opacity .25s}
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.open span:nth-child(2){opacity:0}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .menu{position:absolute;top:100%;right:12px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(11,17,50,.12);min-width:220px;padding:8px;display:none;z-index:50}
+  .menu.open{display:block}
+  .menu a{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:8px}
+  .menu a:active{background:#F7F8FA}
+  .menu .m-label{font-size:15px;font-weight:600;color:var(--navy)}
+  .menu .m-sub{font-size:13.5px;color:var(--muted)}
   .gate{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;max-width:430px;margin:0 auto;width:100%}
   .sub{color:var(--ink);font-size:17px;font-weight:600;letter-spacing:1px;margin-bottom:10px}
   .sub2{color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:34px;max-width:340px}
@@ -38,6 +49,13 @@
 <body>
   <header class="topbar">
     <div class="wordmark">TRYB<b>NETWORK</b></div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <nav class="menu" id="menu">
+      <a href="tel:+12817898448">
+        <span class="m-label">Contact us</span>
+        <span class="m-sub">+1 281 789 8448</span>
+      </a>
+    </nav>
   </header>
   <main class="gate">
     <p class="sub">TRADE, MINE, PLAY, EARN.</p>
@@ -70,5 +88,20 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+<script>
+(function(){
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('menu');
+  burger.addEventListener('click', function(e){
+    e.stopPropagation();
+    menu.classList.toggle('open');
+    burger.classList.toggle('open');
+  });
+  document.addEventListener('click', function(){
+    menu.classList.remove('open');
+    burger.classList.remove('open');
+  });
+})();
+</script>
 </body>
 </html>
