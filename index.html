@@ -111,5 +111,10 @@ s0.parentNode.insertBefore(s1,s0);
   });
 })();
 </script>
+
+<style>
+/* Safe-area (2026-10-24): keep the header clear of the iPhone Dynamic Island / status bar */
+body{ padding-top: env(safe-area-inset-top, 0px); }
+</style>
 </body>
 </html>
