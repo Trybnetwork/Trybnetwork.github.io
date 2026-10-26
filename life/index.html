@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>TrybLife — Live a Lagos life. Earn TrybCoin.</title>
+<meta name="description" content="Play TrybLife free as a guest: work, hustle, pay rent every Saturday in a Lagos life-sim — then claim real TrybCoin on TrybNetwork." />
+<meta name="theme-color" content="#0B1132" />
+<style>
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#F4F5FA; color:#0B1132; }
+  .g-head{ background:#0B1132; color:#fff; padding:14px 16px calc(14px + env(safe-area-inset-top, 0px)); padding-top:calc(14px + env(safe-area-inset-top, 0px)); }
+  .g-head .brand{ color:#C9A24B; font-size:11px; font-weight:800; letter-spacing:2.5px; }
+  .g-head h1{ font-family:"Sora",system-ui,sans-serif; font-size:24px; margin:2px 0 2px; font-weight:800; }
+  .g-head p{ margin:0; color:#B9BED6; font-size:13px; }
+  .g-wrap{ max-width:560px; margin:0 auto; padding:14px 14px 60px; }
+  .g-guestbar{ display:flex; align-items:center; gap:10px; background:#FBF3DC; border:1px solid #EAD9A0; border-radius:14px; padding:10px 12px; margin-top:12px; font-size:13px; color:#7A5E14; }
+  .g-guestbar b{ color:#0B1132; }
+  .g-guestbar .btn{ margin-left:auto; flex:0 0 auto; padding:8px 13px; font-size:13px; }
+  .btn{ background:#0B1132; color:#fff; border:1px solid #C9A24B; border-radius:12px; padding:12px 16px; font:inherit; font-weight:700; font-size:14.5px; cursor:pointer; }
+  .btn.ghost{ background:#fff; color:#0B1132; border-color:#D8DCE6; }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; }
+  .g-foot{ text-align:center; color:#6B7086; font-size:12.5px; padding:0 16px 34px; line-height:1.6; }
+  .g-foot a{ color:#0B1132; font-weight:700; }
+  #gToast{ position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); background:#0B1132; color:#fff; border:1px solid #C9A24B; border-radius:12px; padding:11px 16px; font-size:13.5px; font-weight:600; opacity:0; pointer-events:none; transition:all .25s ease; max-width:88vw; text-align:center; z-index:50; }
+  #gToast.on{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .tl-tn-chip{ margin-left:auto; background:#FBF3DC; border:1px solid #EAD9A0; color:#7A5E14; border-radius:999px; padding:6px 12px; font-weight:700; font-size:13px; white-space:nowrap; }
+  .tl-card{ background:#FFFFFF; border:1px solid #E6E7EE; border-radius:16px; padding:14px; margin-top:12px; }
+  .tl-card h3{ margin:0 0 6px; font-size:15px; font-weight:800; }
+  .tl-sub{ color:#6B7086; font-size:13px; margin:0 0 8px; line-height:1.5; }
+  .tl-lanes{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
+  .tl-lane{ text-align:left; border:2px solid #E6E7EE; background:#F7F8FC; border-radius:14px; padding:12px; cursor:pointer; font:inherit; color:#0B1132; }
+  .tl-lane.on{ border-color:#0B1132; background:#EEF0FA; }
+  .tl-lane b{ display:block; font-size:15px; margin-bottom:4px; }
+  .tl-lane span{ font-size:12px; color:#6B7086; line-height:1.45; display:block; }
+  .tl-name-in{ width:100%; border:1.5px solid #D8DCE6; border-radius:10px; padding:11px 12px; font:inherit; font-size:15px; color:#0B1132; background:#fff; }
+  .tl-hero{ display:flex; align-items:center; gap:12px; }
+  .tl-ava{ width:52px; height:52px; border-radius:50%; background:#0B1132; color:#C9A24B; display:grid; place-items:center; font-weight:800; font-size:20px; flex:0 0 auto; }
+  .tl-hero-name{ font-weight:800; font-size:16px; }
+  .tl-hero-sub{ color:#6B7086; font-size:12.5px; }
+  .tl-cash{ font-family:"Sora",system-ui,sans-serif; font-size:30px; font-weight:800; margin:10px 0 2px; }
+  .tl-networth{ color:#6B7086; font-size:12.5px; }
+  .tl-bar{ height:8px; background:#EEF0FA; border-radius:99px; overflow:hidden; margin-top:6px; }
+  .tl-bar > i{ display:block; height:100%; background:#C9A24B; border-radius:99px; }
+  .tl-bar-row{ display:flex; justify-content:space-between; font-size:12px; color:#6B7086; margin-top:10px; }
+  .tl-alert{ background:#FDECEC; border:1px solid #F3C2C2; color:#B3261E; border-radius:12px; padding:10px 12px; font-size:13px; margin-top:12px; }
+  .tl-alert.soft{ background:#FBF3DC; border-color:#EAD9A0; color:#7A5E14; }
+  .tl-actions{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+  .tl-act{ border:1.5px solid #E6E7EE; background:#F7F8FC; border-radius:14px; padding:12px; text-align:left; cursor:pointer; font:inherit; color:#0B1132; }
+  .tl-act b{ display:block; font-size:14.5px; }
+  .tl-act span{ font-size:12px; color:#6B7086; display:block; margin-top:2px; line-height:1.4; }
+  .tl-act:disabled{ opacity:.45; cursor:not-allowed; }
+  .tl-sleep{ width:100%; margin-top:10px; }
+  .tl-log{ list-style:none; margin:6px 0 0; padding:0; }
+  .tl-log li{ padding:8px 0; border-top:1px solid #EEF0FA; font-size:13.5px; line-height:1.5; }
+  .tl-log li:first-child{ border-top:none; }
+  .tl-log .tl-tn{ color:#7A5E14; font-weight:700; }
+  .tl-row{ display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid #EEF0FA; }
+  .tl-row:first-of-type{ border-top:none; }
+  .tl-row-main{ flex:1; min-width:0; }
+  .tl-row-main b{ display:block; font-size:14px; }
+  .tl-row-main span{ font-size:12px; color:#6B7086; display:block; }
+  .tl-row .btn{ flex:0 0 auto; padding:8px 14px; }
+  .tl-cur{ font-size:11px; font-weight:800; color:#14714A; background:#E3F5EC; border-radius:99px; padding:4px 9px; white-space:nowrap; }
+  .tl-locked{ font-size:11px; font-weight:700; color:#9AA0BD; white-space:nowrap; }
+  .tl-ms{ display:flex; align-items:center; gap:10px; padding:8px 0; border-top:1px solid #EEF0FA; font-size:13.5px; }
+  .tl-ms:first-of-type{ border-top:none; }
+  .tl-ms .st{ margin-left:auto; font-size:12px; font-weight:700; white-space:nowrap; }
+  .tl-ms .st.done{ color:#14714A; }
+  .tl-ms .st.todo{ color:#9AA0BD; }
+  .tl-claim-total{ font-family:"Sora",system-ui,sans-serif; font-size:26px; font-weight:800; margin:4px 0; }
+  .tl-claim-line{ display:flex; justify-content:space-between; font-size:13.5px; padding:6px 0; border-top:1px solid #EEF0FA; }
+  .tl-claim-line:first-of-type{ border-top:none; }
+</style>
+</head>
+<body>
+  <header class="g-head">
+    <div class="brand">TRYBNETWORK</div>
+    <h1>🎮 TrybLife</h1>
+    <p>Live a Lagos life. Earn TrybCoin. Free to play — no account needed to start.</p>
+  </header>
+  <div class="g-wrap">
+    <div class="g-guestbar" id="gGuestBar">
+      <span>👋 You're playing as a <b>guest</b>. Your hustle is stacking up — claim it as real TrybCoin when you're ready.</span>
+      <button class="btn" id="gBarClaim" type="button">Claim</button>
+    </div>
+
+    <div id="tlCreate" class="tl-card" style="display:none;">
+      <h3>Start your Lagos life</h3>
+      <p class="tl-sub">Work, hustle, pay rent every Saturday — your hustle money is worth real TrybCoin (₦100 = 1 TN), claimable free on TrybNetwork.</p>
+      <input class="tl-name-in" id="tlName" type="text" maxlength="18" placeholder="Your character's name" autocomplete="off" />
+      <div class="tl-lanes">
+        <button class="tl-lane on" id="tlLaneNepo" type="button" data-lane="nepo"><b>👑 Nepo</b><span>Start with ₦500,000, a family house in Lekki and a bank job unlocked. But family obligations will keep billing you.</span></button>
+        <button class="tl-lane" id="tlLaneLapo" type="button" data-lane="lapo"><b>🔥 Lapo</b><span>Start with ₦15,000 and one room in Ajegunle. No connections — but your side gigs pay +25%. The hustle is real.</span></button>
+      </div>
+      <button class="btn" id="tlStartBtn" type="button" style="width:100%;">Start living — it's free</button>
+    </div>
+
+    <div id="tlMain" style="display:none;">
+      <div class="tl-card">
+        <div class="tl-hero">
+          <div class="tl-ava" id="tlAva">?</div>
+          <div>
+            <div class="tl-hero-name" id="tlHeroName">—</div>
+            <div class="tl-hero-sub" id="tlHeroSub">—</div>
+          </div>
+          <span class="tl-tn-chip">🪙 <span id="tlTnWait">0</span> TN waiting</span>
+        </div>
+        <div class="tl-cash" id="tlCash">₦0</div>
+        <div class="tl-networth" id="tlNetWorth">Net worth ₦0</div>
+        <div class="tl-bar-row"><span>⚡ Energy</span><span id="tlEnergyTxt">100/100</span></div>
+        <div class="tl-bar"><i id="tlEnergyBar" style="width:100%;"></i></div>
+        <div class="tl-bar-row"><span id="tlDayTxt">Day 1 · Monday</span><span id="tlHoursTxt">16h left today</span></div>
+        <div id="tlRentAlert"></div>
+        <div class="tl-actions">
+          <button class="tl-act" id="tlWorkBtn" type="button"><b>💼 Work a shift</b><span id="tlWorkSub">6h · earns your salary</span></button>
+          <button class="tl-act" id="tlGigBtn" type="button"><b>🏃 Side gig</b><span>3h · POS runs, okada delivery, owambe DJ…</span></button>
+          <button class="tl-act" id="tlRestBtn" type="button"><b>🛋️ Rest</b><span>2h · recharge your energy</span></button>
+          <button class="tl-act" id="tlJobBtn" type="button"><b>📈 Jobs &amp; homes</b><span>Climb the ladder, upgrade your life</span></button>
+        </div>
+        <button class="btn tl-sleep" id="tlSleepBtn" type="button">🌙 Sleep — end the day</button>
+      </div>
+
+      <div class="tl-card">
+        <h3>Your story so far</h3>
+        <ul class="tl-log" id="tlLog"></ul>
+      </div>
+
+      <div class="tl-card" id="gClaimCard">
+        <h3>🪙 Your TrybCoin is waiting</h3>
+        <p class="tl-sub">Guests play free — claiming is what needs a (free) TrybNetwork account. Your whole life moves with you: cash, job, home, car.</p>
+        <div class="tl-claim-line"><span>Hustle money, ready to convert</span><b id="gClaimConv">₦0 → 0 TN</b></div>
+        <div class="tl-claim-line"><span>Milestone TN banked</span><b id="gClaimMs">0 TN</b></div>
+        <div class="tl-claim-total" id="gClaimTotal">0 TN waiting</div>
+        <button class="btn" id="gClaimBtn" type="button" style="width:100%;">Claim on TrybNetwork — free</button>
+        <button class="btn ghost" id="gCopyBtn" type="button" style="width:100%;margin-top:8px;">Copy claim code instead</button>
+        <p class="tl-sub" style="margin-top:10px;">Milestone TN pays under the daily claim limits for new accounts; anything above the limit becomes game cash in the app instead — nothing you earned is lost. Bought-in money never exists here: every naira on this page was hustled.</p>
+      </div>
+
+      <div class="tl-card" id="tlJobsCard">
+        <h3>Jobs</h3>
+        <div id="tlJobs"></div>
+        <h3 style="margin-top:14px;">Homes</h3>
+        <p class="tl-sub">Rent is due every Saturday. Moving charges the new home's weekly rent upfront.</p>
+        <div id="tlHomes"></div>
+      </div>
+
+      <div class="tl-card">
+        <h3>Goals &amp; milestones</h3>
+        <div id="tlGoals"></div>
+        <div id="tlMilestones"></div>
+        <button class="btn ghost" id="tlResetBtn" type="button" style="margin-top:14px;color:#B3261E;border-color:#F3C2C2;">Start over (new life)</button>
+      </div>
+    </div>
+
+    <div id="tlOver" class="tl-card" style="display:none;">
+      <h3>🚪 Your landlord has spoken</h3>
+      <p class="tl-sub">You missed rent twice. The run is over — but every Lagos legend started again from somewhere.</p>
+      <button class="btn" id="tlRestartBtn" type="button" style="width:100%;">Start a new life</button>
+    </div>
+  </div>
+  <p class="g-foot">TrybLife by <a href="https://trybnetwork.com/">TrybNetwork</a> · In-game ₦ is fictional — the TrybCoin you claim is real inside TrybNetwork.<br/>Already have an account? The claim button signs you in and finishes the claim inside the app's TrybLife.</p>
+  <div id="gToast" role="status"></div>
+
+<script>
+(function(){
+  "use strict";
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function fmtN(n){ return "₦" + Math.round(Number(n) || 0).toLocaleString("en-US"); }
+  function rand(min, max){ return Math.floor(min + Math.random() * (max - min + 1)); }
+  function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
+  var toastTimer = null;
+  function say(msg){
+    var t = $("gToast"); if (!t) return;
+    t.textContent = msg; t.classList.add("on");
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.classList.remove("on"); }, 3400);
+  }
+
+  var JOBS = [
+    { id: "pos", name: "POS Attendant", pay: 4500, lvl: 1 },
+    { id: "conductor", name: "Danfo Conductor", pay: 5500, lvl: 1 },
+    { id: "sales", name: "Sales Rep", pay: 9000, lvl: 2 },
+    { id: "banker", name: "Bank Teller", pay: 11600, lvl: 3 },
+    { id: "creator", name: "Content Creator", payMin: 0, payMax: 40000, lvl: 4 },
+    { id: "supervisor", name: "Supervisor", pay: 18000, lvl: 5 },
+    { id: "manager", name: "Manager", pay: 35000, lvl: 7 },
+    { id: "tech", name: "Tech Bro / Sis", pay: 45000, lvl: 9 }
+  ];
+  var HOMES = {
+    family: { name: "Family House", area: "Lekki", rent: 0, energy: 120, rest: 50 },
+    face: { name: "Face-Me-I-Face-You", area: "Ajegunle", rent: 7000, energy: 100, rest: 30 },
+    self: { name: "Self-Contain", area: "Yaba", rent: 15000, energy: 110, rest: 40 },
+    mini: { name: "Mini Flat", area: "Lekki Phase 1", rent: 40000, energy: 120, rest: 50 },
+    duplex: { name: "Duplex", area: "Ikoyi", rent: 90000, energy: 140, rest: 65 }
+  };
+  var HOME_ORDER = ["face", "self", "mini", "duplex"];
+  var GIGS = [
+    { name: "POS runs for a busy agent", min: 2000, max: 6000 },
+    { name: "Okada delivery across town", min: 3000, max: 8000 },
+    { name: "Market errands for two traders", min: 2500, max: 7000 },
+    { name: "Owambe DJ set", min: 5000, max: 12000 },
+    { name: "Freelance design job", min: 4000, max: 11000 },
+    { name: "Helped a shop restock at dawn", min: 3000, max: 6500 }
+  ];
+  var EVENTS = [
+    { t: "NEPA took the light during your shift. You finished with torchlight like a pro.", xp: 4 },
+    { t: "Your aunty in Canada sent you ₦20,000 unprovoked. Family is everything.", cash: 20000 },
+    { t: "Area boys 'settled' you at the junction.", cash: -5000 },
+    { t: "Fuel scarcity! Transport fare doubled today.", cash: -3500 },
+    { t: "Your landlord invented a new 'service charge' from nowhere.", cash: -8000 },
+    { t: "A customer dashed you ₦3,000 for good service.", cash: 3000 },
+    { t: "Owambe weekend! You sprayed small, but your network grew.", cash: -6000, xp: 10 },
+    { t: "Rain flooded your street. You waded to work like a soldier.", xp: 6, energy: -10 },
+    { t: "Your phone screen cracked. Painful repairs.", cash: -12000 },
+    { t: "You jump-started a neighbour's car — he pressed ₦5,000 into your hand.", cash: 5000 },
+    { t: "A danfo conductor tried to 'forget' your change. You collected it with confidence.", cash: 1500, xp: 3 },
+    { t: "Levy collectors came round with their wahala.", cash: -4000 },
+    { t: "An old classmate linked you a small contract.", cash: 15000, xp: 5 },
+    { t: "Generator repair at home. The real Lagos tax.", cash: -9000 },
+    { t: "You sold your old sneakers online within the hour.", cash: 7000 },
+    { t: "Family meeting survived: 'when will you bring somebody home?' Uncle still gave you ₦2,000 transport.", cash: 2000 },
+    { t: "A video of you dancing at owambe went small-viral. New followers!", xp: 12 },
+    { t: "You found ₦2,500 in your old jeans. Blessed day.", cash: 2500 },
+    { t: "Daddy's friend called about an 'opportunity'. Mostly vibes, small connections.", xp: 8, lane: "nepo" },
+    { t: "Family obligations: three relatives needed 'urgent 2k' — times fifty.", cash: -25000, lane: "nepo" },
+    { t: "Your POS corner got a new regular — a boutique owner who tips well.", cash: 6000, lane: "lapo" },
+    { t: "Rain entered through the roof. You fixed it yourself, landlord-style.", xp: 5, cash: -2000, lane: "lapo" }
+  ];
+  var XP_LVL = [0, 40, 100, 180, 280, 400, 540, 700, 880, 1080];
+  var MILESTONES = [
+    { key: "nw100k", at: 100000, tn: 20, label: "Reach ₦100k net worth" },
+    { key: "nw500k", at: 500000, tn: 30, label: "Reach ₦500k net worth" },
+    { key: "nw1m", at: 1000000, tn: 50, label: "Reach ₦1M net worth" },
+    { key: "madeit", at: 2500000, tn: 100, label: "Made It in Lagos — ₦2.5M net worth" }
+  ];
+  var CAR_PRICE = 750000;
+  var DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  var LS_KEY = "tryblife_guest_v1";
+
+  var S = null;
+  var createLane = "nepo";
+  var resetArmed = false;
+
+  function level(){ if (!S) return 1; var l = 1; for (var i = 1; i < XP_LVL.length; i++) if (S.xp >= XP_LVL[i]) l = i + 1; return l; }
+  function job(){ for (var i = 0; i < JOBS.length; i++) if (JOBS[i].id === S.job) return JOBS[i]; return JOBS[0]; }
+  function home(){ return HOMES[S.home] || HOMES.face; }
+  function maxEnergy(){ return home().energy; }
+  function netWorth(){ return (S ? S.cash : 0) + (S && S.car ? CAR_PRICE : 0); }
+  function statusTitle(){
+    var nw = netWorth();
+    if (nw >= 2500000) return "Made It in Lagos 👑";
+    if (nw >= 1000000) return "Chairman 🎩";
+    if (nw >= 500000) return "Baller 💰";
+    if (nw >= 100000) return "Upcoming ⭐";
+    return S.lane === "nepo" ? "Nepo Baby 👑" : "Hustler 🔥";
+  }
+  function log(text, isTn){
+    if (!S) return;
+    S.log.unshift({ t: text, tn: !!isTn, d: S.day });
+    if (S.log.length > 40) S.log.length = 40;
+  }
+  function saveLocal(){ try { if (S) localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch (e) {} }
+  function loadLocal(){ try { var raw = localStorage.getItem(LS_KEY); if (raw) S = JSON.parse(raw); } catch (e) { S = null; } }
+
+  function bankTn(amount, label){
+    S.guestTn = (S.guestTn || 0) + amount;
+    log("🪙 " + label + " — +" + amount + " TN banked. Claim it free on TrybNetwork.", true);
+  }
+  function checkMilestones(){
+    if (!S) return;
+    var nw = netWorth();
+    MILESTONES.forEach(function(m){
+      if (!S.ms[m.key] && nw >= m.at){
+        S.ms[m.key] = true;
+        log("🏆 Milestone: " + m.label + ".", true);
+        bankTn(m.tn, "Milestone: " + m.label);
+      }
+    });
+  }
+  function maybeEvent(chance){
+    if (Math.random() > chance) return;
+    var pool = EVENTS.filter(function(e){ return !e.lane || e.lane === S.lane; });
+    var e = pick(pool);
+    if (e.cash) S.cash = Math.max(0, S.cash + e.cash);
+    if (e.xp) S.xp += e.xp;
+    if (e.energy) S.energy = Math.max(0, Math.min(maxEnergy(), S.energy + e.energy));
+    log("🎲 " + e.t);
+  }
+  function afterAction(){ saveLocal(); checkMilestones(); render(); }
+
+  function doWork(){
+    if (!S || S.over) return;
+    var j = job();
+    if (S.hours < 6) return say("No hours left today — sleep to start a fresh day.");
+    if (S.energy < 25) return say("Energy too low — rest first, or sleep.");
+    var pay = j.payMax ? rand(j.payMin, j.payMax) : j.pay;
+    S.cash += pay; S.xp += 12; S.energy -= 25; S.hours -= 6;
+    log("💼 " + j.name + " shift done — +" + fmtN(pay) + ".");
+    maybeEvent(0.25);
+    afterAction();
+  }
+  function doGig(){
+    if (!S || S.over) return;
+    if (S.hours < 3) return say("No hours left today — sleep to start a fresh day.");
+    if (S.energy < 15) return say("Energy too low — rest first, or sleep.");
+    var g = pick(GIGS);
+    var pay = Math.round(rand(g.min, g.max) * (S.lane === "lapo" ? 1.25 : 1));
+    S.cash += pay; S.xp += 6; S.energy -= 15; S.hours -= 3;
+    log("🏃 Gig: " + g.name + " — +" + fmtN(pay) + (S.lane === "lapo" ? " (Lapo bonus applied)" : "") + ".");
+    maybeEvent(0.2);
+    afterAction();
+  }
+  function doRest(){
+    if (!S || S.over) return;
+    if (S.hours < 2) return say("No hours left today — sleep to start a fresh day.");
+    S.energy = Math.min(maxEnergy(), S.energy + home().rest);
+    S.hours -= 2;
+    log("🛋️ You rested and recharged.");
+    afterAction();
+  }
+  function doSleep(){
+    if (!S || S.over) return;
+    var wasSaturday = ((S.day - 1) % 7) === 5;
+    S.day += 1; S.hours = 16; S.energy = maxEnergy();
+    log("🌙 Day " + S.day + " — " + DAYS[(S.day - 1) % 7] + ". Fresh energy, fresh chances.");
+    try {
+      var today = new Date().toDateString();
+      var yest = new Date(Date.now() - 86400000).toDateString();
+      if (S.lastSleep !== today){
+        S.streak = (S.lastSleep === yest) ? (S.streak || 0) + 1 : 1;
+        S.lastSleep = today;
+        if (S.streak % 7 === 0 && S.lastStreakAward !== S.streak){
+          S.lastStreakAward = S.streak;
+          bankTn(25, "🔥 " + S.streak + "-day streak");
+        }
+      }
+    } catch (e) {}
+    if (wasSaturday){
+      var h = home();
+      if (h.rent <= 0) log("🏠 Family house — no rent this week. Soft life.");
+      else if (S.cash >= h.rent){
+        S.cash -= h.rent; S.missed = 0;
+        log("🏠 Rent paid: " + fmtN(h.rent) + " for your " + h.name + ". Landlord is smiling.");
+      } else {
+        S.missed = (S.missed || 0) + 1;
+        if (S.missed >= 2){
+          S.over = true;
+          log("🚪 You missed rent twice — your landlord changed the locks. This life is over.");
+          say("Game over — your landlord ended this run.");
+        } else {
+          log("⚠️ Rent of " + fmtN(h.rent) + " is due and you can't cover it! Hustle fast — one more miss and you're out.");
+          say("Rent missed — one more and you're out.");
+        }
+      }
+    }
+    maybeEvent(0.6);
+    afterAction();
+  }
+
+  function renderJobs(){
+    var host = $("tlJobs"); if (!host || !S) return;
+    var html = "";
+    JOBS.forEach(function(j){
+      var payTxt = j.payMax ? fmtN(j.payMin) + "–" + fmtN(j.payMax) + " / shift (volatile)" : fmtN(j.pay) + " / shift";
+      var right;
+      if (S.job === j.id) right = '<span class="tl-cur">Current job</span>';
+      else if (level() < j.lvl) right = '<span class="tl-locked">Needs level ' + j.lvl + "</span>";
+      else right = '<button class="btn" type="button" data-tljob="' + j.id + '">Take job</button>';
+      html += '<div class="tl-row"><div class="tl-row-main"><b>' + esc(j.name) + "</b><span>" + payTxt + " · Level " + j.lvl + "</span></div>" + right + "</div>";
+    });
+    host.innerHTML = html;
+  }
+  function renderHomes(){
+    var host = $("tlHomes"); if (!host || !S) return;
+    var html = "";
+    if (S.home === "family"){
+      html += '<div class="tl-row"><div class="tl-row-main"><b>Family House</b><span>Lekki · ₦0 rent · your starting perk (leaving is forever)</span></div><span class="tl-cur">Current home</span></div>';
+    }
+    HOME_ORDER.forEach(function(id){
+      var h = HOMES[id];
+      var right = S.home === id ? '<span class="tl-cur">Current home</span>'
+        : '<button class="btn" type="button" data-tlhome="' + id + '">Move · ' + fmtN(h.rent) + "</button>";
+      html += '<div class="tl-row"><div class="tl-row-main"><b>' + esc(h.name) + "</b><span>" + esc(h.area) + " · " + fmtN(h.rent) + "/week · " + h.energy + " energy</span></div>" + right + "</div>";
+    });
+    host.innerHTML = html;
+  }
+  function renderGoals(){
+    var g = $("tlGoals"), m = $("tlMilestones");
+    if (!g || !m || !S) return;
+    if (S.car) g.innerHTML = '<div class="tl-ms">🚗 You own a car — chairman levels.<span class="st done">Done · +40 TN banked</span></div>';
+    else g.innerHTML = '<div class="tl-ms">🚗 Buy your first car — ' + fmtN(CAR_PRICE) + '<span class="st todo">+40 TN milestone</span></div><button class="btn" type="button" data-tlcar="1" style="width:100%;">Buy the car</button>';
+    var html = "";
+    MILESTONES.forEach(function(ms){
+      html += '<div class="tl-ms">' + (S.ms[ms.key] ? "🏆 " : "🎯 ") + esc(ms.label) + '<span class="st ' + (S.ms[ms.key] ? "done" : "todo") + '">' + (S.ms[ms.key] ? "Banked" : "+" + ms.tn + " TN") + "</span></div>";
+    });
+    m.innerHTML = html;
+  }
+  function claimFigures(){
+    if (!S) return { convTn: 0, msTn: 0, total: 0 };
+    var convTn = Math.floor(Math.max(0, S.cash) / 100);
+    var msTn = S.guestTn || 0;
+    return { convTn: convTn, msTn: msTn, total: convTn + msTn };
+  }
+  function render(){
+    var create = $("tlCreate"), main = $("tlMain"), over = $("tlOver");
+    if (!S){ create.style.display = ""; main.style.display = "none"; over.style.display = "none"; $("gGuestBar").style.display = "none"; return; }
+    $("gGuestBar").style.display = "";
+    create.style.display = "none";
+    main.style.display = S.over ? "none" : "";
+    over.style.display = S.over ? "" : "none";
+    if (S.over) return;
+    var f = claimFigures();
+    $("tlTnWait").textContent = f.total.toLocaleString("en-US");
+    $("tlAva").textContent = (S.name || "?").charAt(0).toUpperCase();
+    $("tlHeroName").textContent = S.name;
+    $("tlHeroSub").textContent = statusTitle() + " · " + job().name + " · Level " + level() + " · " + home().name;
+    $("tlCash").textContent = fmtN(S.cash);
+    $("tlNetWorth").textContent = "Net worth " + fmtN(netWorth()) + " · XP " + S.xp;
+    $("tlEnergyTxt").textContent = S.energy + "/" + maxEnergy();
+    $("tlEnergyBar").style.width = Math.max(0, Math.min(100, (S.energy / maxEnergy()) * 100)) + "%";
+    $("tlDayTxt").textContent = "Day " + S.day + " · " + DAYS[(S.day - 1) % 7];
+    $("tlHoursTxt").textContent = S.hours + "h left today";
+    var ra = $("tlRentAlert");
+    if (((S.day - 1) % 7) === 5 && home().rent > 0) ra.innerHTML = '<div class="tl-alert soft">🏠 Rent day! ' + fmtN(home().rent) + " leaves your account when you sleep tonight." + (S.cash < home().rent ? " You are short — hustle something quick." : "") + "</div>";
+    else if (S.missed > 0) ra.innerHTML = '<div class="tl-alert">⚠️ You owe rent (' + fmtN(home().rent) + "). Cover it before next Saturday or your landlord ends this life.</div>";
+    else ra.innerHTML = "";
+    var j = job();
+    $("tlWorkSub").textContent = "6h · " + j.name + " pays " + (j.payMax ? fmtN(j.payMin) + "–" + fmtN(j.payMax) : fmtN(j.pay));
+    $("tlWorkBtn").disabled = S.hours < 6 || S.energy < 25;
+    $("tlGigBtn").disabled = S.hours < 3 || S.energy < 15;
+    $("tlRestBtn").disabled = S.hours < 2;
+    $("tlSleepBtn").textContent = "🌙 Sleep — start Day " + (S.day + 1);
+    $("tlLog").innerHTML = S.log.slice(0, 8).map(function(l){
+      return '<li' + (l.tn ? ' class="tl-tn"' : "") + ">" + esc(l.t) + "</li>";
+    }).join("");
+    $("gClaimConv").textContent = fmtN(S.cash) + " → " + f.convTn.toLocaleString("en-US") + " TN";
+    $("gClaimMs").textContent = f.msTn.toLocaleString("en-US") + " TN";
+    $("gClaimTotal").textContent = f.total.toLocaleString("en-US") + " TN waiting";
+    renderJobs(); renderHomes(); renderGoals();
+  }
+
+  function claimPayload(){
+    if (!S) return "";
+    var msKeys = [];
+    MILESTONES.forEach(function(m){ if (S.ms[m.key]) msKeys.push(m.key); });
+    if (S.ms.car) msKeys.push("car");
+    var payload = {
+      n: S.name, l: S.lane, d: S.day, c: Math.floor(S.cash), x: S.xp,
+      j: S.job, h: S.home, car: S.car ? 1 : 0, ms: msKeys,
+      g: S.guestTn || 0, st: S.streak || 0
+    };
+    var b = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    return b.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function claimLink(){ return "https://app.trybnetwork.com/?tlclaim=" + claimPayload(); }
+  window.__tlClaimLink = claimLink;
+  window.__tlClaimPayload = claimPayload;
+
+  function startLife(){
+    var name = (($("tlName") || {}).value || "").trim();
+    if (!name) name = createLane === "nepo" ? "Nepo Baby" : "Street Hustler";
+    S = {
+      v: 1, name: name, lane: createLane, day: 1, hours: 16,
+      cash: createLane === "nepo" ? 500000 : 15000,
+      xp: createLane === "nepo" ? 100 : 0,
+      energy: createLane === "nepo" ? 120 : 100,
+      job: createLane === "nepo" ? "banker" : "pos",
+      home: createLane === "nepo" ? "family" : "face",
+      missed: 0, over: false, car: false, ms: {}, log: [],
+      guestTn: 0, streak: 0, lastSleep: "", lastStreakAward: 0
+    };
+    log(createLane === "nepo"
+      ? "👑 You woke up in Lekki with ₦500,000 and soft life waiting. Try not to fumble it."
+      : "🔥 You woke up in Ajegunle with ₦15,000 and big dreams. Rent is Saturday. Hustle!");
+    saveLocal();
+    say("Welcome to Lagos, " + name + " — rent is due every Saturday.");
+    render();
+  }
+  function wipeLife(){
+    S = null;
+    try { localStorage.removeItem(LS_KEY); } catch (e) {}
+    render();
+  }
+
+  function bind(id, fn){ var el = $(id); if (el) el.addEventListener("click", fn); }
+  bind("tlLaneNepo", function(){ createLane = "nepo"; $("tlLaneNepo").classList.add("on"); $("tlLaneLapo").classList.remove("on"); });
+  bind("tlLaneLapo", function(){ createLane = "lapo"; $("tlLaneLapo").classList.add("on"); $("tlLaneNepo").classList.remove("on"); });
+  bind("tlStartBtn", startLife);
+  bind("tlRestartBtn", wipeLife);
+  bind("tlWorkBtn", doWork);
+  bind("tlGigBtn", doGig);
+  bind("tlRestBtn", doRest);
+  bind("tlSleepBtn", doSleep);
+  bind("tlJobBtn", function(){ var c = $("tlJobsCard"); if (c) c.scrollIntoView({ behavior: "smooth", block: "start" }); });
+  bind("tlResetBtn", function(){
+    var b = $("tlResetBtn");
+    if (!resetArmed){
+      resetArmed = true;
+      b.textContent = "Tap again to confirm — this wipes your guest life";
+      setTimeout(function(){ resetArmed = false; b.textContent = "Start over (new life)"; }, 3000);
+      return;
+    }
+    resetArmed = false; b.textContent = "Start over (new life)";
+    wipeLife();
+    say("New beginnings — pick a lane and go again.");
+  });
+  function goClaim(){
+    if (!S) return say("Start your life first — then claim what you hustle.");
+    window.location.href = claimLink();
+  }
+  bind("gClaimBtn", goClaim);
+  bind("gBarClaim", function(){
+    if (!S){ say("Start your life first — then claim what you hustle."); return; }
+    var c = $("gClaimCard"); if (c) c.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+  bind("gCopyBtn", function(){
+    if (!S) return say("Start your life first — then claim what you hustle.");
+    var code = claimPayload();
+    function done(){ say("Claim code copied — paste it in the app's TrybLife (Import a guest claim)."); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(done, function(){ say("Your claim code: " + code); });
+    else say("Your claim code: " + code);
+  });
+  document.addEventListener("click", function(e){
+    var t = e.target && e.target.closest ? e.target : null;
+    if (!t || !S) return;
+    var jb = t.closest("[data-tljob]");
+    if (jb){
+      var jid = jb.getAttribute("data-tljob");
+      for (var i = 0; i < JOBS.length; i++) if (JOBS[i].id === jid){ S.job = jid; log("💼 New job: " + JOBS[i].name + ". Congratulations, try not to get sacked."); }
+      afterAction(); return;
+    }
+    var hb = t.closest("[data-tlhome]");
+    if (hb){
+      var hid = hb.getAttribute("data-tlhome"), h = HOMES[hid];
+      if (S.cash < h.rent) return say("Can't move yet — moving needs " + fmtN(h.rent) + " upfront.");
+      S.cash -= h.rent; S.home = hid; S.energy = Math.min(S.energy, maxEnergy());
+      log("🏠 You moved to a " + h.name + " in " + h.area + " — " + fmtN(h.rent) + " paid upfront.");
+      afterAction(); return;
+    }
+    var cb = t.closest("[data-tlcar]");
+    if (cb && !S.car){
+      if (S.cash < CAR_PRICE) return say("Not yet, chairman — a car costs " + fmtN(CAR_PRICE) + ".");
+      S.cash -= CAR_PRICE; S.car = true; S.ms.car = true;
+      log("🚗 You bought your first car! Neighbours are already calling you chairman.");
+      bankTn(40, "Milestone: first car");
+      afterAction(); return;
+    }
+  });
+
+  loadLocal();
+  render();
+})();
+</script>
+<!-- tn-visit-tracker (tryblife guest) -->
+<script>
+/* TrybNetwork visitor tracker — logs one anonymous landing per site +
+   page per browser session; the server folds repeat landings from the
+   same IP + page into one record with a hit counter. IP, country and
+   device type. Fire-and-forget; never breaks or delays the page. */
+(function () {
+  try {
+    var SITE = "life";
+    try {
+      var skey = "tn_visit_" + SITE + "|" + (location.pathname || "/");
+      if (sessionStorage.getItem(skey)) return;
+      sessionStorage.setItem(skey, "1");
+    } catch (e) {}
+    var vid = null;
+    try {
+      vid = localStorage.getItem("tn_vid");
+      if (!vid) {
+        vid = (window.crypto && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : "v" + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+        localStorage.setItem("tn_vid", vid);
+      }
+    } catch (e) {}
+    var ua = navigator.userAgent || "";
+    var isMobile = /iPhone|iPad|iPod|Android|Mobile/i.test(ua) ||
+      (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua));
+    function deviceLabel(model) {
+      var b = /Edg\//.test(ua) ? "Edge"
+        : /OPR\/|Opera/.test(ua) ? "Opera"
+        : /SamsungBrowser/.test(ua) ? "Samsung Internet"
+        : /CriOS|Chrome\//.test(ua) ? "Chrome"
+        : /FxiOS|Firefox\//.test(ua) ? "Firefox"
+        : /Safari\//.test(ua) ? "Safari" : "Browser";
+      var d;
+      if (/iPhone/.test(ua)) d = "iPhone";
+      else if (/iPad/.test(ua)) d = "iPad";
+      else if (/Android/.test(ua)) {
+        d = "Android";
+        if (model) d = "Android (" + model + ")";
+        else {
+          var m = ua.match(/Android[^;]*;\s*([^)]+)\)/);
+          if (m && m[1] && !/^(K|Mobile|Tablet|wv)$/i.test(m[1].trim()))
+            d = "Android (" + m[1].trim() + ")";
+        }
+      }
+      else if (/Windows/.test(ua)) d = "Windows PC";
+      else if (/Macintosh|Mac OS X/.test(ua)) d = "Mac";
+      else if (/Linux/.test(ua)) d = "Linux";
+      else d = "Unknown device";
+      return d + " · " + b;
+    }
+    function geo() {
+      return fetch("https://ipwho.is/").then(function (r) { return r.json(); }).then(function (j) {
+        if (j && j.success !== false && (j.ip || j.country_code))
+          return { ip: j.ip || null, cc: j.country_code || null, cn: j.country || null };
+        throw new Error("ipwho");
+      }).catch(function () {
+        return fetch("https://api.country.is/").then(function (r) { return r.json(); }).then(function (j) {
+          return { ip: (j && j.ip) || null, cc: (j && j.country) || null, cn: null };
+        }).catch(function () { return { ip: null, cc: null, cn: null }; });
+      });
+    }
+    var modelP = Promise.resolve("");
+    try {
+      if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+        modelP = Promise.race([
+          navigator.userAgentData.getHighEntropyValues(["model"])
+            .then(function (v) { return (v && v.model) || ""; })
+            .catch(function () { return ""; }),
+          new Promise(function (res) { setTimeout(function () { res(""); }, 700); })
+        ]);
+      }
+    } catch (e) {}
+    Promise.all([geo(), modelP]).then(function (res) {
+      var g = res[0];
+      var params = {
+        p_site: SITE,
+        p_path: location.pathname || "/",
+        p_ip: g.ip,
+        p_country_code: g.cc,
+        p_country_name: g.cn,
+        p_device: deviceLabel(res[1]),
+        p_is_mobile: !!isMobile,
+        p_visitor_id: vid,
+        p_ua: ua.slice(0, 400)
+      };
+      try {
+        if (typeof sb !== "undefined" && sb && sb.rpc) {
+          sb.rpc("tn_log_visit", params).then(function () {}, function () {});
+          return;
+        }
+      } catch (e) {}
+      try {
+        fetch("https://zvubytosshkxpbpvgcsw.supabase.co/rest/v1/rpc/tn_log_visit", {
+          method: "POST",
+          keepalive: true,
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": "sb_publishable_c1sl1Mw4Y5EMWjkmYSzEow_m5Yowqk0",
+            "Authorization": "Bearer sb_publishable_c1sl1Mw4Y5EMWjkmYSzEow_m5Yowqk0"
+          },
+          body: JSON.stringify(params)
+        }).catch(function () {});
+      } catch (e) {}
+    }).catch(function () {});
+  } catch (e) {}
+})();
+
+</script>
+<!-- TN auto-translate: matches the TrybNetwork app (Google Translate, 32 languages, device-language auto-apply on first visit) -->
+<style>
+#google_translate_element { position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; overflow:hidden; }
+.goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display:none !important; }
+.skiptranslate iframe { display:none !important; }
+body { top:0 !important; }
+</style>
+<div id="google_translate_element" aria-hidden="true"></div>
+<script>
+(function(){
+  var SUPPORTED = ["en","fr","es","pt","ar","ha","yo","ig","sw","hi","ur","zh-CN","de","it","ru","tr","id","vi","th","tl","ta","te","bn","pa","ml","am","so","zu","sn","ja","ko","fa","sq","ps","uk","pl","nl","ro","el","sv","ne","si","km","my","ka","hy","az","kk","uz","tg","sr","bs"];
+  function cookieLang(){
+    var m = document.cookie.match(/(?:^|;\s*)googtrans=\/en\/([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function setTransCookie(lang){
+    var v = "/en/" + lang;
+    document.cookie = "googtrans=" + v + "; path=/";
+    document.cookie = "googtrans=" + v + "; path=/; domain=" + location.hostname;
+  }
+  function clearTransCookie(){
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + location.hostname;
+  }
+  function deviceLang(){
+    var l = (navigator.language || "en").toLowerCase();
+    if (l.indexOf("zh") === 0) return "zh-CN";
+    var base = l.split("-")[0];
+    return SUPPORTED.indexOf(base) >= 0 ? base : "en";
+  }
+  window.__tnSetLang = function(lang){
+    try { localStorage.setItem("tn_lang", lang); } catch(e){}
+    if (lang === "en") { clearTransCookie(); } else { setTransCookie(lang); }
+    location.reload();
+  };
+  window.googleTranslateElementInit = function(){
+    try {
+      new google.translate.TranslateElement({ pageLanguage: "en", autoDisplay: false }, "google_translate_element");
+    } catch(e){}
+    var saved = null;
+    try { saved = localStorage.getItem("tn_lang"); } catch(e){}
+    if (!saved) {
+      var dev = deviceLang();
+      if (dev !== "en" && cookieLang() !== dev) {
+        setTransCookie(dev);
+        setTimeout(function(){ location.reload(); }, 600);
+      }
+    }
+  };
+  var s = document.createElement("script");
+  s.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  s.async = true;
+  document.head.appendChild(s);
+})();
+</script>
+
+</body>
+</html>
